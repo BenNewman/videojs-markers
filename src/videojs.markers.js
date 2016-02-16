@@ -181,9 +181,8 @@
 
             markerTip.find('.vjs-tip-inner').html(setting.markerTip.text(marker));
             
-            // margin-left needs to minus the padding length to align correctly with the marker
+            // Replaced margin-left with transform
             markerTip.css({"left" : getPosition(marker) + '%',
-                           "margin-left" : -parseFloat(markerTip.css("width"))/2 - 5 + 'px',
                            "visibility"  : "visible"});
             
          }).on('mouseout',function(){
