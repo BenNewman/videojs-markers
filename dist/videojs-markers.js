@@ -1,5 +1,5 @@
-/*! videojs-markers - v0.5.0 - 2015-08-01
-* Copyright (c) 2015 ; Licensed  */
+/*! videojs-markers - v0.5.0 - 2016-02-16
+* Copyright (c) 2016 ; Licensed  */
 /*! videojs-markers !*/
 'use strict'; 
 
@@ -180,8 +180,8 @@
          
          markerDiv.on('mouseover', function(){
             var marker = markersMap[$(this).data('marker-key')];
-            
-            markerTip.find('.vjs-tip-inner').text(setting.markerTip.text(marker));
+
+            markerTip.find('.vjs-tip-inner').html(setting.markerTip.text(marker));
             
             // margin-left needs to minus the padding length to align correctly with the marker
             markerTip.css({"left" : getPosition(marker) + '%',
@@ -199,17 +199,17 @@
       }
       
       // show or hide break overlays
-      function updateBreakOverlay(currentTime) {
-         if(currentMarkerIndex < 0){
+      function updateBreakOverlay() {
+         if(!setting.breakOverlay.display || currentMarkerIndex < 0){
             return;
          }
          
+         var currentTime = player.currentTime();
          var marker = markersList[currentMarkerIndex];
          var markerTime = setting.markerTip.time(marker);
-      
+         
          if (currentTime >= markerTime && 
             currentTime <= (markerTime + setting.breakOverlay.displayTime)) {
-
             if (overlayIndex != currentMarkerIndex){
                overlayIndex = currentMarkerIndex;
                breakOverlay.find('.vjs-break-overlay-text').text(setting.breakOverlay.text(marker));
@@ -232,6 +232,11 @@
       }
       
       function onTimeUpdate() {
+         onUpdateMarker();
+         updateBreakOverlay();
+      }
+      
+      function onUpdateMarker() {
          /*
              check marker reached in between markers
              the logic here is that it triggers a new marker reached event only if the player 
@@ -255,6 +260,12 @@
                currentTime < nextMarkerTime) {
                return;
             }
+            
+            // check for ending (at the end current time equals player duration)
+            if (currentMarkerIndex === markersList.length -1 &&
+               currentTime === player.duration()) {
+               return;
+            }
          }
          
          // check first marker, no marker is selected
@@ -268,7 +279,6 @@
                
                if(currentTime >= setting.markerTip.time(markersList[i]) &&
                   currentTime < nextMarkerTime) {
-                  
                   newMarkerIndex = i;
                   break;
                }
@@ -284,10 +294,6 @@
             currentMarkerIndex = newMarkerIndex;
          }
          
-         // update overlay
-         if(setting.breakOverlay.display) {
-            updateBreakOverlay(currentTime);
-         }
       }
       
       // setup the whole thing

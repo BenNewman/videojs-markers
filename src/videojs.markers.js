@@ -178,8 +178,8 @@
          
          markerDiv.on('mouseover', function(){
             var marker = markersMap[$(this).data('marker-key')];
-            
-            markerTip.find('.vjs-tip-inner').text(setting.markerTip.text(marker));
+
+            markerTip.find('.vjs-tip-inner').html(setting.markerTip.text(marker));
             
             // margin-left needs to minus the padding length to align correctly with the marker
             markerTip.css({"left" : getPosition(marker) + '%',
