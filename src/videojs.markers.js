@@ -378,6 +378,6 @@
       };
    }
 
-   videojs.plugin('markers', registerVideoJsMarkersPlugin);
+   videojs.registerPlugin('markers', registerVideoJsMarkersPlugin);
 
 })(jQuery, window.videojs);

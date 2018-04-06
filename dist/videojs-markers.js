@@ -1,5 +1,5 @@
-/*! videojs-markers - v0.5.0 - 2016-02-16
-* Copyright (c) 2016 ; Licensed  */
+/*! videojs-markers - v0.5.0 - 2018-04-06
+* Copyright (c) 2018 ; Licensed  */
 /*! videojs-markers !*/
 'use strict'; 
 
@@ -380,6 +380,6 @@
       };
    }
 
-   videojs.plugin('markers', registerVideoJsMarkersPlugin);
+   videojs.registerPlugin('markers', registerVideoJsMarkersPlugin);
 
 })(jQuery, window.videojs);
